@@ -50,6 +50,7 @@ import com.android.settings.spa.preference.ComposePreference
 import com.android.settingslib.PrimarySwitchPreference
 import com.android.settingslib.bluetooth.CachedBluetoothDevice
 import com.android.settingslib.bluetooth.LocalBluetoothManager
+import com.android.settingslib.bluetooth.devicesettings.DeviceSettingId
 import com.android.settingslib.bluetooth.devicesettings.shared.model.DeviceSettingActionModel
 import com.android.settingslib.bluetooth.devicesettings.shared.model.DeviceSettingConfigNodeModel
 import com.android.settingslib.bluetooth.devicesettings.shared.model.DeviceSettingIcon
@@ -211,7 +212,13 @@ abstract class BluetoothDetailsConfigurableFragment :
                 }
             }
         }
-        constructLayout(pageLayout)
+        val melodyItem =
+            DeviceSettingConfigNodeModel.Item.BuiltinItem.CommonBuiltinItem(
+                DeviceSettingId.DEVICE_SETTING_ID_UNKNOWN,
+                false,
+                BluetoothDetailsMelodyController.KEY_MELODY_DEVICE_CONTROLS,
+            )
+        constructLayout(DeviceSettingLayout(pageLayout.nodes + melodyItem))
     }
 
     private fun listenToAppProvidedSettingChanges(
