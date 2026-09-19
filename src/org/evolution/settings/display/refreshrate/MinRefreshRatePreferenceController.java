@@ -20,6 +20,7 @@ package org.evolution.settings.display.refreshrate;
 import static android.provider.Settings.System.EXTREME_REFRESH_RATE;
 
 import android.content.Context;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings;
 
@@ -34,10 +35,15 @@ import com.android.settings.core.BasePreferenceController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class MinRefreshRatePreferenceController extends BasePreferenceController
         implements Preference.OnPreferenceChangeListener {
 
+    private static final int LTPO_LOW_REFRESH_RATE = 30;
+    private static final String OPLUS_LTPO_MIN_FPS_PROPERTY = "persist.sys.oplus_ltpo_min_fps";
+
+    private final boolean mSupportsOplusLtpo;
     private final ArrayList<Integer> mSupportedList;
     private final DisplayRefreshRateHelper mHelper;
 
@@ -47,7 +53,14 @@ public class MinRefreshRatePreferenceController extends BasePreferenceController
         super(context, key);
 
         mHelper = DisplayRefreshRateHelper.getInstance(context);
-        mSupportedList = mHelper.getSupportedRefreshRateList();
+        mSupportsOplusLtpo = context.getResources().getBoolean(R.bool.config_supportsOplusLtpo);
+        final TreeSet<Integer> rates = new TreeSet<>(mHelper.getSupportedRefreshRateList());
+        if (mSupportsOplusLtpo) {
+            // Zero releases the forced floor so stock ADFR can idle down to 1 Hz.
+            rates.add(0);
+            rates.add(LTPO_LOW_REFRESH_RATE);
+        }
+        mSupportedList = new ArrayList<>(rates);
     }
 
     @Override
@@ -66,7 +79,8 @@ public class MinRefreshRatePreferenceController extends BasePreferenceController
 
         for (int i = 0; i < mSupportedList.size(); ++i) {
             final String refreshRate = String.valueOf(mSupportedList.get(i));
-            entries.add(refreshRate + " Hz");
+            entries.add((mSupportsOplusLtpo && mSupportedList.get(i) == 0
+                    ? "1" : refreshRate) + " Hz");
             values.add(refreshRate);
         }
 
@@ -95,11 +109,27 @@ public class MinRefreshRatePreferenceController extends BasePreferenceController
                 mContext.getContentResolver(), EXTREME_REFRESH_RATE,
                 0, UserHandle.USER_CURRENT) != 0;
         mListPreference.setEnabled(!extremeMode);
+        if (mSupportsOplusLtpo) {
+            final String value = String.valueOf(minRefreshRate >= LTPO_LOW_REFRESH_RATE
+                    ? minRefreshRate : 0);
+            if (!value.equals(SystemProperties.get(OPLUS_LTPO_MIN_FPS_PROPERTY))) {
+                SystemProperties.set(OPLUS_LTPO_MIN_FPS_PROPERTY, value);
+            }
+        }
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        mHelper.setMinimumRefreshRate(Integer.parseInt((String) newValue));
+        final int refreshRate;
+        try {
+            refreshRate = Integer.parseInt(String.valueOf(newValue));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if (!mSupportedList.contains(refreshRate)) {
+            return false;
+        }
+        mHelper.setMinimumRefreshRate(refreshRate);
         updateState(preference);
         return true;
     }
