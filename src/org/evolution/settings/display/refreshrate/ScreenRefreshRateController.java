@@ -23,6 +23,7 @@ import androidx.preference.PreferenceScreen;
 
 import com.android.internal.util.evolution.DisplayRefreshRateHelper;
 
+import com.android.settings.R;
 import com.android.settings.core.BasePreferenceController;
 
 import com.android.settingslib.core.lifecycle.LifecycleObserver;
@@ -77,7 +78,10 @@ public class ScreenRefreshRateController extends BasePreferenceController implem
     public void updateState(Preference preference) {
         String summary = null;
 
-        final int minRefreshRate = mHelper.getMinimumRefreshRate();
+        final int minimum = mHelper.getMinimumRefreshRate();
+        final int minRefreshRate = minimum == 0
+                && mContext.getResources().getBoolean(R.bool.config_supportsOplusLtpo)
+                ? 1 : minimum;
         final int maxRefreshRate = mHelper.getPeakRefreshRate();
 
         final boolean extremeMode = Settings.System.getIntForUser(
@@ -117,6 +121,7 @@ public class ScreenRefreshRateController extends BasePreferenceController implem
         public void register(ContentResolver cr) {
             cr.registerContentObserver(mMinUri, false, this);
             cr.registerContentObserver(mPeakUri, false, this);
+            cr.registerContentObserver(mExtremeUri, false, this);
         }
 
         public void unregister(ContentResolver cr) {

@@ -15,6 +15,8 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Requires the Oplus ADFR service and its persistent minimum-FPS bridge. -->
+    <bool name="config_supportsOplusLtpo">false</bool>
 
     <!-- If false, MIN is displayed. If true, MSID is displayed. -->
     <bool name="config_msid_enable" translatable="false">false</bool>
