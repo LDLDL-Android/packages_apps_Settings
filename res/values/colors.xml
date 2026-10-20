@@ -74,6 +74,8 @@
     <color name="homepage_display_background">@color/homepage_orange_bg</color>
     <color name="homepage_wallpaper_foreground">@color/homepage_orange_fg</color>
     <color name="homepage_wallpaper_background">@color/homepage_orange_bg</color>
+    <color name="homepage_pluskey_foreground">@color/homepage_orange_fg</color>
+    <color name="homepage_pluskey_background">@color/homepage_orange_bg</color>
     <color name="homepage_storage_foreground">@color/homepage_yellow_fg</color>
     <color name="homepage_storage_background">@color/homepage_yellow_bg</color>
     <color name="homepage_battery_foreground">@color/homepage_green_fg</color>

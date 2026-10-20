@@ -432,4 +432,8 @@
     <string name="lockscreen_display_timeout_5m">5 minutes</string>
     <string name="lockscreen_display_timeout_10m">10 minutes</string>
     <string name="lockscreen_display_timeout_30m">30 minutes</string>
+
+    <!-- Plus Key -->
+    <string name="top_level_pluskey_title">Plus Key</string>
+    <string name="top_level_pluskey_summary">Customize the side button</string>
 </resources>

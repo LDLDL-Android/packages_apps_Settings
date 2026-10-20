@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The Evolution X Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<com.android.settings.widget.TintDrawable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_settings_pluskey"
+    android:tint="@color/homepage_pluskey_foreground" />
