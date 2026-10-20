@@ -35,4 +35,9 @@
 
     <!-- Device image for HW info -->
     <string name="config_deviceImageDrawable" translatable="false"></string>
+
+    <!-- Touch polling rate choices, written as report rate modes to the touch HAL.
+         Value 0 means default. Leave empty to only show the on/off switch. -->
+    <string-array name="config_touchReportRateEntries" translatable="false" />
+    <string-array name="config_touchReportRateValues" translatable="false" />
 </resources>
