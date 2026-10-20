@@ -44,6 +44,8 @@ import com.android.settingslib.search.SearchIndexable;
 
 import lineageos.hardware.LineageHardwareManager;
 
+import org.evolution.settings.display.TouchReportRatePreferenceController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +108,7 @@ public class DisplaySettings extends DashboardFragment {
         controllers.add(new ThemePreferenceController(context));
         controllers.add(new EmulateDisplayCutoutPreferenceController(context));
         controllers.add(new BrightnessLevelPreferenceController(context, lifecycle));
+        controllers.add(new TouchReportRatePreferenceController(context));
 
         if (DesktopSettingsUtils.shouldShowTopLevelDeviceCategory(context)) {
             controllers.add(new ExternalDisplayPreferenceController(context, lifecycle));

@@ -419,4 +419,7 @@
     <!-- Plus Key -->
     <string name="top_level_pluskey_title">Plus Key</string>
     <string name="top_level_pluskey_summary">Customize the side button</string>
+
+    <!-- Touch polling rate -->
+    <string name="touch_report_rate_title">Touch polling rate</string>
 </resources>
