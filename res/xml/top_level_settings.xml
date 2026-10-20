@@ -135,6 +135,19 @@
             android:summary="@string/wallpaper_dashboard_summary"
             settings:highlightableMenuKey="@string/menu_key_wallpaper"
             settings:controller="com.android.settings.display.TopLevelWallpaperPreferenceController"/>
+
+        <com.android.settings.widget.HomepagePreference
+            android:icon="@drawable/ic_settings_pluskey"
+            android:key="top_level_pluskey"
+            android:order="-5"
+            android:title="@string/top_level_pluskey_title"
+            android:summary="@string/top_level_pluskey_summary"
+            settings:controller="org.evolution.settings.pluskey.TopLevelPlusKeyPreferenceController">
+            <intent
+                android:action="com.oplus.pluskey.SETTINGS"
+                android:targetPackage="com.oplus.pluskey"
+                android:targetClass="com.oplus.pluskey.ui.PlusKeyActivity" />
+        </com.android.settings.widget.HomepagePreference>
     </PreferenceCategory>
 
     <PreferenceCategory
